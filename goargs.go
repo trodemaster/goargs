@@ -1,4 +1,4 @@
-
+// example code for providing tool configuration from enviornemnet variables and option flags
 package main
 
 import (
@@ -11,8 +11,8 @@ import (
 func main() {
 
     log.Println("Setting Defaults...")
-    // set sain default for this option
-    serviceUrl := "http://netjibbing.com/api"
+    // set sane default for this option
+    serviceUrl := "netjibbing.com/api"
     serviceUser := "testuser"
     servicePass := "testpass"
     serviceOption1 := "download"
@@ -40,24 +40,28 @@ func main() {
 
     // override default and env variable with option flag from command line
     // flag.StringVar( pointer for the variable, variable name, default value, description)
-    flag.StringVar(&serviceUrl, "url", serviceUrl, "service url")
-    flag.StringVar(&serviceUser, "user", serviceUser, "service username")
-    flag.StringVar(&servicePass, "pass", servicePass, "service password")
-    flag.StringVar(&serviceOption1, "option1", serviceOption1, "Service Option 1")
-    flag.StringVar(&serviceOption2, "option2", serviceOption2, "Service Option 2")
+    flag.StringVar(&serviceUrl, "url", serviceUrl, "service url, env var SERVICE_URL")
+    flag.StringVar(&serviceUser, "user", serviceUser, "service username, env var SERVICE_USER")
+    flag.StringVar(&servicePass, "pass", servicePass, "service password, env var SERVICE_PASS")
+    flag.StringVar(&serviceOption1, "option1", serviceOption1, "Service Option 1, env var SERVICE_OPTION_1")
+    flag.StringVar(&serviceOption2, "option2", serviceOption2, "Service Option 2, env var SERVICE_OPTION_2")
 
     // Once all flags are declared, call `flag.Parse()`
     // to execute the command-line parsing.
     flag.Parse()
 
     // Print the options out for inspection
+    log.Println("Outputting current options")
+
     fmt.Println("The Serivce URL is: ",serviceUrl)
     fmt.Println("The Serivce username is: ",serviceUser)
     fmt.Println("The Serivce password is: ",servicePass)
     fmt.Println("The Serivce option 1 is: ",serviceOption1)
     fmt.Println("The Serivce option 1 is: ",serviceOption2)
-    
 
+    // compose a url from the options
+    log.Println("Constructing a full url...")
+    fmt.Println("https://"+serviceUser+":"+servicePass+"@"+serviceUrl+"/"+serviceOption1+"/"+serviceOption2)
 
     // log end of run
     log.Println("completed...")
